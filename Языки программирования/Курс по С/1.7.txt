@@ -1,0 +1,149 @@
+Задания отделены между собой линиями из "#"
+
+void swap(int* a, int* b)
+{
+    int c = *b;
+    *b = *a;
+    *a = c;
+}
+
+#####################################
+
+void normalize(int* num) {
+   while((*num > 0)&&(*num%2 == 0)){
+       *num = *num/2;
+   }
+}
+
+#######################################
+
+void factorize( int n, int* a, int* b )
+{
+  if(n == 1){
+      *a = 1;
+      *b = n;
+  }else if(n % 2 != 0){
+      int counter = 3;
+      int count_div = 0;
+      while(counter <= (n/2) && count_div == 0){
+          if(n % counter == 0){
+              count_div+= 1;
+          }else{
+              counter+=2;
+          }
+      }
+      if(count_div == 0){
+          *a = 1;
+          *b = n;
+      }else{
+          *a = counter;
+          *b = n/counter;
+      }
+  }else if(n % 2 == 0){
+      *a = 2;
+      *b = n/2;
+  }
+}
+
+################################################
+
+void array_reverse(int* array, int size) {
+    int buffer_array[size];
+    for (int i = 0; i < size; i++) {
+        buffer_array[i] = *array;
+        array += 1;
+    }
+    for (int i = size; i > 0; i--) {
+        array -= 1;
+        *array = buffer_array[size - i];
+    }
+}
+
+void array_reverse_ptr(int* array, int* limit) {
+    int size = limit - array;
+    int buffer_array[size];
+    for(int i = 0; i < size; i++){
+        buffer_array[i] = *array;
+        array += 1;
+    }
+    for(int i = size; i > 0; i--){
+        array -= 1;
+        *array = buffer_array[size - i];
+    }
+}
+
+################################################
+
+void array_fib(int* array, int* limit) 
+{
+    if(limit - array > 1){
+    int prev_num = 1;
+    int prev_num_2 = 1;
+    *array = 1;
+    array += 1;
+    *array = 1;
+    while(array < (limit - 1)) {
+        array += 1;
+        *array = prev_num_2 + prev_num;
+        prev_num_2 = prev_num;
+        prev_num = *array;
+    }
+    }else if(limit - array == 1) {
+        *array = 1;
+    }
+}
+
+#################################################
+
+int array_contains(int* array, int* limit, int** position) {
+   while(array < limit){
+       if(predicate(*array)){
+           *position = array;
+           return 1;
+       }
+       array += 1;
+   }
+   return 0; 
+}
+
+
+############################################
+
+int is_whitespace(char c) 
+{
+    return c == ' ' || c == '\t' || c == '\n'; 
+}
+
+int string_count(char* str) 
+{ 
+    char sym = *str;
+    int sym_counter = 0;
+    while(sym != 0){
+        sym_counter += 1;
+        str += 1;
+        sym = *str;
+    }
+    return sym_counter;
+}
+
+int string_words(char* str)  
+{
+    char sym = *str;
+    char prev_sym = ' ';
+    int word_counter = 0;
+    while(sym != 0){
+        if(!is_whitespace(prev_sym) && is_whitespace(sym)){
+            word_counter += 1;
+        }
+        prev_sym = *str;
+        str += 1;
+        sym = *str;
+    }
+    if(!is_whitespace(prev_sym)&&prev_sym != 0){
+        word_counter += 1;
+    }
+    return word_counter;
+}
+
+################################################
+

@@ -1,0 +1,22 @@
+Задания отделены между собой линиями из "#"
+
+void sum(int*, int*, int);
+
+###############################
+
+int stack_push(int);
+int stack_pop(int*);
+
+#############################
+
+#ifndef ARITH_H
+#define ARITH_H
+
+int sum(int*, int);
+
+
+
+
+#endif
+
+################################

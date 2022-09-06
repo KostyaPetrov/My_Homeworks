@@ -1,0 +1,42 @@
+Задания отделены между собой линиями из "#"
+
+
+// Определите массив в котором будут 8*1024*1024 чисел
+// Массив не должен занимать больше 40 МБ памяти
+
+uint32_t data[8*1024*1024] = {0};
+
+// Определите функцию count_gt
+// Она должна вернуть количество чисел в data, которые больше LIMIT
+// LIMIT это определение препроцессора, оно вам уже доступно
+// скрытый от вас код заполнит массив data числами и проверит правильность
+// вашей функции
+size_t count_gt(uint32_t* array, size_t size) {
+    size_t counter = 0;
+    uint32_t copy_of_array = array+size;
+    while(array < copy_of_array){
+        if(*array > LIMIT){
+            counter += 1;
+        }
+        array += 1;
+    }
+    return counter;
+}
+
+################################################
+
+size_t count_zeroes(const void* data, size_t sz)
+{
+    size_t counter = 0;
+    const int8_t* data_in_bytes = data;
+    const int8_t* copy_data = data_in_bytes + sz;
+    while(data_in_bytes < copy_data){
+        if(*data_in_bytes == 0){
+            counter += 1;
+        }
+        data_in_bytes += 1;
+    }
+    return counter;
+}
+
+################################################

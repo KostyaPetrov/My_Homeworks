@@ -1,0 +1,208 @@
+Задания отделены между собой линиями из "#"
+
+
+// вы можете реализовать эти функции для более удобного считывания чисел
+int64_t read_int64()
+{
+    int64_t num = 0;
+    scanf("%" SCNd64, &num);
+    return num;
+}
+size_t read_size()
+{
+    size_t size = 0;
+    scanf("%zu", &size);
+    return size;
+}
+
+// заполнить уже выделенный массив array размера size числами
+void array_int_fill( int64_t* array, size_t size ) 
+{
+    int64_t* limit = array+size;
+    int64_t num = 0;
+    while(array < limit){
+        num = read_int64();
+        *array = num;
+        array += 1;
+    }
+}
+
+// Считать размер массива в *size, выделить память под массив и заполнить его числами.
+int64_t* array_int_read( size_t* size ) 
+{
+    *size = read_size();
+    int64_t* array = malloc(sizeof(int64_t)*(*size));
+    array_int_fill(array, *size);
+    return array;
+}
+
+##############################################################################################
+
+
+int64_t* array_int_min( int64_t* array, size_t size ) 
+{
+    if(size == 0){
+        return NULL;
+    }else{
+        int64_t* min = array;
+        int64_t* limit = array + size;
+        while(array < limit){
+            if(*array < *min){
+                min = array;
+            }
+            array += 1;
+        }
+        return min;
+    }
+
+
+################################################################
+
+// эти функции вы уже реализовали на предыдущих шагах
+int64_t* array_int_read( size_t* size );
+int64_t* array_int_min( int64_t* array, size_t size); 
+
+void intptr_print(int64_t* x)
+{
+    if (x == NULL) {
+        printf("None");
+    }
+    else {
+        printf("%" PRId64, *x);
+    }
+}
+
+void perform()
+{
+    size_t size;
+    
+    int64_t* array = NULL;
+    int64_t* array_min_val = NULL;
+    
+    array = array_int_read(&size);
+    
+    if(array == NULL){
+        printf("None");
+    }
+    
+    array_min_val = array_int_min(array, size);
+    intptr_print(array_min_val);
+    free(array);
+}
+
+##################################################################
+
+// Вам доступны эти функции из прошлых заданий
+size_t read_size();
+void array_int_fill( int64_t* array, size_t size );
+int64_t* array_int_read( size_t* size );
+
+int64_t** marray_read( size_t* adr_of_rows, size_t** adr_of_sizes  ) {
+    size_t rows = read_size();
+    
+    int64_t** matrix = malloc(rows * sizeof(int64_t*));
+    size_t* sizes = malloc(rows * sizeof(size_t));
+    
+    for(size_t i = 0; i < rows; i++)
+        matrix[i] = array_int_read(&sizes[i]);
+    
+    *adr_of_rows = rows;
+    *adr_of_sizes = sizes;
+    
+    return matrix;
+}
+
+void marray_print(int64_t** marray, size_t* sizes, size_t rows) {
+    for( size_t i = 0; i < rows; i = i + 1 ) {
+        array_int_print( marray[i], sizes[i] );
+        print_newline();
+    }
+    for(size_t i = 0; i < rows; i++){
+        
+    }
+}
+
+##########################################################################
+
+void marray_free( int64_t** marray, size_t rows ) {
+    for(size_t i = 0; i < rows; i++){
+        free(marray[i]);
+    }
+    free(marray);
+}
+
+
+##################################################################
+
+size_t read_size();
+int64_t* array_int_min( int64_t* array, size_t size );
+int64_t** marray_read( size_t* rows, size_t* sizes[] );
+void marray_free( int64_t** marray, size_t rows );
+void marray_print(int64_t** marray, size_t* sizes, size_t rows);
+
+
+// Указатель на минимальное из двух чисел.
+// если хотя бы одно число NULL, то возвращать второе
+// если оба числа NULL результат NULL
+int64_t* int64_ptr_min(int64_t* x, int64_t* y) {
+    if(x == NULL && y == NULL){
+        return NULL;
+    }
+    else if(x == NULL || y == NULL){
+        return y;
+    }
+    else if(*x <= *y){
+        return x;
+    }
+    else{
+        return y;
+    }
+}
+
+// Вернуть адрес минимального элемента массива массивов
+int64_t* marray_int_min( int64_t** marray, size_t* sizes, size_t rows ) {
+    int64_t* min_add = 0;
+    for(size_t i = 0; i < rows; i++){
+        for(size_t k = 0; k < sizes[i]; k++){
+            if(i == 0&&k==0){
+                min_add = &marray[i][k];
+            }else{
+                if(*min_add > marray[i][k]){
+                    min_add = &marray[i][k];
+                }
+            }
+        }
+    }
+    return min_add;
+}
+
+// Вычесть m изо всех элементов массива
+void marray_normalize( int64_t** marray, size_t sizes[], size_t rows, int64_t m ) {
+    if(marray != NULL){
+    for(size_t i = 0; i < rows; i++){
+        for(size_t k = 0; k < sizes[i]; k++){
+                marray[i][k] -= m;
+        }
+    }
+    }
+}
+
+// Прочитать, найти минимум и нормализовать массив, вывести результат
+void perform() {
+    size_t rows = 0;
+    size_t size = 0;
+    size_t* sizes = &size;
+    int64_t** array = marray_read(&rows, &sizes);
+    if(array != NULL){
+        int64_t* m = marray_int_min(array, sizes, rows);
+        if(m != NULL){
+            marray_normalize(array, sizes, rows, *m);
+            marray_print(array, sizes, rows);
+        }
+        free(m);
+    }
+    marray_free(array, rows);
+    free(sizes);
+}
+
+##########################################################################

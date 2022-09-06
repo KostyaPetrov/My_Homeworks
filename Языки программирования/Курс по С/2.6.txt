@@ -1,0 +1,104 @@
+Задания отделены между собой линиями из "#"
+
+
+typedef char ftype(const float* num, size_t (*marray)(struct array, int64_t));
+
+########################################################################################
+
+// Мы хотим, чтобы в структуре user хранились ссылки только на строчки из кучи.
+typedef struct { char* addr; } string_heap ;
+
+/*  Тип для идентификаторов пользователей
+    и его спецификаторы ввода и вывода для printf */
+typedef uint64_t uid;
+#define PRI_uid PRIu64
+#define SCN_uid SCNu64
+
+enum city {C_SARATOV, C_MOSCOW, C_PARIS, C_LOS_ANGELES, C_OTHER};
+
+/*  Массив, где элементам перечисления сопоставляются их текстовые представления */
+const char* city_string[] = {
+  [C_SARATOV] = "Saratov",
+  [C_MOSCOW] = "Moscow",
+  [C_PARIS] = "Paris",
+  [C_LOS_ANGELES] = "Los Angeles",
+  [C_OTHER] = "Other"
+};
+
+###########################################################################
+
+enum move_dir { MD_UP, MD_RIGHT, MD_DOWN, MD_LEFT, MD_NONE };
+
+typedef void move_callback(enum move_dir);
+
+struct list_callback{
+    move_callback* function;
+    struct list_callback * next;
+};
+
+struct robot {
+    const char* name;
+    struct list_callback* head;
+};
+
+struct list_callback* struct_list_callback_get_last(struct list_callback* head){
+    if (head == NULL){
+        return NULL;
+    }
+    struct list_callback* link = head;
+    
+    while(link -> next != NULL){
+        link = link -> next;
+    }
+    return link;
+}
+
+struct list_callback* struct_list_callback_new(move_callback new_cb){
+    struct list_callback* list = malloc(sizeof(struct list_callback));
+    list -> function = new_cb;
+    list -> next = NULL;
+    
+    return list;
+}
+
+void struct_list_callback_clear(struct list_callback** adr_head){
+    struct list_callback* link = *adr_head;
+    
+    while(link != NULL){
+        struct list_callback* next_link = link -> next;
+        free(link);
+        link = next_link;
+    }
+    
+   *adr_head = NULL;
+}
+
+void struct_list_callback_call_all(struct list_callback* head, enum move_dir dir){
+    struct list_callback* link = head;
+    
+    while(link != NULL){
+        (link -> function)(dir);
+        link = link -> next;
+    }
+    
+}
+
+void register_callback(struct robot* robot, move_callback new_cb) {
+    struct list_callback* last = struct_list_callback_get_last(robot -> head);
+    if (last == NULL){
+        robot -> head = struct_list_callback_new(new_cb);
+    }
+    else{ 
+        last -> next = struct_list_callback_new(new_cb);
+    }
+}
+
+void unregister_all_callbacks(struct robot* robot) {
+    struct_list_callback_clear(&(robot -> head));
+}
+
+void move(struct robot* robot, enum move_dir dir) {
+    struct_list_callback_call_all(robot -> head, dir);
+}
+
+#####################################################################################

@@ -1,0 +1,94 @@
+Задания отделены между собой линиями из "#"
+
+int main() {
+    int counter = read_int();
+    if(counter > 10){
+        printf("No");
+    }
+    while(counter <= 10){
+        printf("%d ", counter);
+        counter++;
+    }
+    return 0;
+}
+
+#############################################
+
+int is_square(int num)
+{
+    int result = 1;
+    while(result*result < num){
+        result *= 2;
+    }
+    while(result*result != num){
+        result -= 1;
+        if(result < 0){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+
+#######################################################
+
+
+int divides(int a, int b) { 
+    return a % b == 0; 
+}
+
+void print_newline() { 
+    printf("\n"); 
+}
+
+/* Выводит одну строчку: число n, двоеточие и все его делители, большие единицы, до самого n включительно.
+Например, для числа 8 это:
+"8: 2 4 8 "
+В конце этой строчки должен быть пробел.
+*/
+void divisors(int n) {
+    int num = 2;
+    printf("%d: ", n);
+    while(num <= n){
+        int divide_checker = divides(n, num);
+        if(divide_checker){
+            printf("%d ", num);
+        }
+        num++;
+    }
+}
+
+/* Выводит делители для всех чисел от 1 до limit включительно
+Каждая строчка -- в формате, заданном функцией divisors.
+*/
+void all_divisors(int limit) {
+    int counter = 1;
+    while(counter <= 100){
+        divisors(counter);
+        printf("\n");
+        counter++;
+    }
+}
+
+
+int main() {
+    all_divisors(100);
+    return 0;
+}
+
+#####################################################
+
+int is_prime(int num)
+{
+    int counter = 2;
+    while(counter < num){
+        if(num % counter == 0){
+            return 0;
+        }
+        counter++;
+    }
+    if(num <= 1){
+        return 0;
+    }
+    return 1;
+}

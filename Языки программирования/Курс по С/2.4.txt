@@ -1,0 +1,159 @@
+Задания отделены между собой линиями из "#"
+
+struct list {
+  int64_t value;
+  struct list* next;
+};
+
+struct list* node_create(int64_t value) {
+    struct list* link = malloc(sizeof(struct list));
+    link -> value = value;
+    link -> next = NULL;
+    return link;
+}
+
+##################################################
+
+struct list* node_create( int64_t value );
+
+void list_add_front( struct list** old, int64_t value ) {
+    struct list* link = node_create(value);
+    link -> next = *old;
+    *old = link;
+}
+
+############################################################
+
+size_t list_length(const struct list* list ) {
+    size_t length = 0;
+    while(list != NULL){
+        list = list -> next;
+        length++;
+    }
+    return length;
+}
+
+
+##########################################################
+
+void list_destroy( struct list* list ) {
+    struct list* link = list;
+    while (link != NULL) {
+      struct list* buf = link -> next;
+      free( link ); 
+      link = buf;
+   }
+}
+
+#############################################################
+
+struct list* list_last( struct list * list ) {
+    struct list* link = NULL;
+    while(list != NULL){
+        struct list* buffer = list;
+        if(buffer -> next == NULL){
+            link = buffer;
+        }
+        list = list -> next;
+    }
+    return link;
+}
+
+###########################################################
+
+void list_add_back( struct list** old, int64_t value ) {
+    if(old != NULL){
+        struct list* link = list_last(*old);
+        if(link != NULL){
+            link -> next = node_create(value);
+        }
+        else{
+            list_add_front(old, value);
+        }
+    }
+}
+
+##################################################################
+
+int64_t list_sum( const struct list* list ) {
+    int64_t sum = 0;
+    if(list != NULL){
+    while(list -> next != NULL){
+        sum += list -> value;
+        list = list -> next;
+    }
+    sum += list -> value;
+    }
+    return sum;
+}
+
+###################################################################
+
+struct maybe_int64 list_at(  const struct list* list, size_t idx ) {
+    size_t counter = 0;
+    if(list != NULL && idx >= 0){
+        while(counter < idx){
+            counter++;
+            if(list -> next == NULL){
+                return (struct maybe_int64){.value = 0, .valid = false};
+            }
+            list = list -> next; 
+        }
+        return (struct maybe_int64){.value = list -> value, .valid = true};
+    }else{
+        return (struct maybe_int64){.value = 0, .valid = false};
+    }
+}
+
+################################################################################
+
+void list_add_front( struct list** old, int64_t value );
+
+// создать перевернутую копию списка
+struct list* list_reverse( const struct list* list ) {
+    struct list* link = NULL;
+    struct list** link_2 = &link;
+    if(list != NULL){
+        while(list -> next != NULL){
+            list_add_front(link_2, list -> value);
+            list = list -> next;
+        }
+        list_add_front(link_2, list -> value);
+    }
+    return link;
+}
+
+########################################################################
+
+
+struct maybe_int64 maybe_read_int64() {
+    int64_t value = 0;
+    int reader_count = scanf("%" PRId64,&value);
+    if(reader_count > 0){
+        return (struct maybe_int64) { .value = value, .valid = true };
+    }
+    return none_int64;
+}
+
+###################################################################################
+
+struct list* list_read() {
+    struct maybe_int64 buffer = maybe_read_int64();
+    struct list* first_value = NULL;
+    struct list* prev_value = NULL;
+    struct list* next_value = NULL;
+    if(buffer.valid == true){
+        prev_value = node_create(buffer.value);
+        first_value = prev_value;
+    }
+    buffer = maybe_read_int64();
+    while(buffer.valid == true){
+        next_value = node_create(buffer.value);
+        prev_value -> next = next_value;
+        prev_value = next_value;
+        buffer = maybe_read_int64();
+    }
+    return first_value;
+}
+
+#######################################################

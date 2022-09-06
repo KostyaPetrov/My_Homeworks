@@ -1,0 +1,67 @@
+Задания отделены между собой линиями из "#"
+
+// Возвращает 1 если в числе одна цифра, иначе 0
+int is_single_digit(int n) 
+{
+    if (n <= 9 && n >= 0) {
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+// Возвращает 1 если в числе ровно две цифры, иначе 0
+int is_double_digit(int n) 
+{
+    if(n >= 10 && n < 100){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+#####################################################
+
+int is_sorted3(int a, int b, int c) 
+{
+    if(a < b && b < c){
+        return 1;   
+    }
+    if(a > b && b > c){
+        return -1;    
+    }else{
+        return 0;
+    }
+}
+
+###################################################
+
+int max3(int a, int b, int c) {
+    if(a > c && a > b){
+        return a;
+    }
+    if(b > a && b > c){
+        return b;
+    }
+    return c;
+}
+
+#################################################
+
+void fizzbuzz(int num)
+{
+    if(num > 0){
+        if(num % 5 == 0){
+            printf("buzz");
+        }
+        if(num % 3 == 0){
+            printf("fizz");
+            if((num % 3 == 0) && (num % 5 == 0)){
+                printf("fizzbuzz");
+            }
+        }
+    }else{
+        printf("no"); 
+    }
+}
+
