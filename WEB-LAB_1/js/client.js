@@ -19,7 +19,7 @@ function generateTip(text, color) {
   return tip;
 }
 
-
+var $checkbox = false;
 //функция для очистки подсказок при повторной валидации 
 function removeValidation() {
   var tips = form.querySelectorAll('.tip')
@@ -48,10 +48,28 @@ function validateField(coordinate, min, max) {
   return false;
 }
 
+function validateCheckBox(coordinate, min, max) {
+  if (coordinate.value) {
+    coordinate.value = coordinate.value.replace(',', '.');
+    if (coordinate.value < min || coordinate.value > max || !isNumber(coordinate.value)|| !$checkbox) {
+      var error = generateTip('Wrong number format', 'red')
+      coordinate.parentElement.insertBefore(error, coordinate)
+      return false;
+    }
+    else {
+      var correct = generateTip('Correct data', 'green');
+      coordinate.parentElement.insertBefore(correct, coordinate)
+      return true;
+    }
+  }
+  var error = generateTip('field is blank', 'red');
+  coordinate.parentElement.insertBefore(error, coordinate);
+  return false;
+}
 
 // фунция для повторной проверки, что поля заполнены верно, чтобы передать их php скрипту
 function validateAll() {
-  return validateField(yCoordinate, -5, 3) && validateField(rCoordinate, 1, 5);
+  return validateField(yCoordinate, -5, 3) && validateCheckBox(rCoordinate, 1, 5);
 }
 
 $(document).ready(function () {
@@ -118,6 +136,7 @@ $(".reset_button").on("click", function () {
 })
 $("input:checkbox").on('click', function() {
   // in the handler, 'this' refers to the box clicked on
+  $checkbox = true;
   var $box = $(this);
   if ($box.is(":checked")) {
     // the name of the box is retrieved using the .attr() method
