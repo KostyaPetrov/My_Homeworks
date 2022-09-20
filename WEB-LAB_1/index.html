@@ -1,0 +1,101 @@
+<!DOCTYPE html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/black_style.css">
+
+    <title>Web-Lab1</title>
+</head>
+
+<body>
+    <div id="header">
+        <div class="hat" colspan="3"> Atalyan Alexander Eduardovich<br>Group Р32081<br>Variant №672<br></div>
+    </div>
+    <div id="columns">
+        <div id="left">
+            <div class="column_name">Graph</div>
+            <div id="graphic"> <img id="areas" width="400px" height="400px" src="image/ГрафикДляСани.png"
+                    alt="Graph_photo"></div>
+        </div>
+        <div id="center" valign="top">
+            <div width="20%">
+                <div class="column_name">Coordinates</div>
+                <div class="input" id="Coordinates">
+                    <div class="descr">
+                        <b>Input X:</b>
+                    </div>
+                    <form method="get" class="validate_form" id="validate_form" action="php/server.php">
+                        <div class="fields" id="values">
+                            <input type="radio" name="x" value="-3" required='required'>
+                            -3<br>
+                            <input type="radio" name="x" value="-2" required='required'>
+                            -2<br>
+                            <input type="radio" name="x" value="-1" required='required'>
+                            -1<br>
+                            <input class="positive_radio" type="radio" name="x" value="0" required='required'>
+                            0<br>
+                            <input class="positive_radio" type="radio" name="x" value="1" required='required'>
+                            1<br>
+                            <input class="positive_radio" type="radio" name="x" value="2" required='required'>
+                            2<br>
+                            <input class="positive_radio" type="radio" name="x" value="3" required='required'>
+                            3<br>
+                            <input class="positive_radio" type="radio" name="x" value="4" required='required'>
+                            4<br>
+                            <input class="positive_radio" type="radio" name="x" value="5" required='required'>
+                            5<br>
+                        </div>
+                        <div class="descr">
+                            <b>Input Y:</b>
+                        </div>
+                        <div class="fields">
+                            <input autocomplete="on" maxlength="5" type="text" name="y" class="y field" size="19"
+                                placeholder="From -5 to 3." required='required'>
+                        </div>
+                        <div class="descr">
+                            <b>Input R:</b>
+                        </div>
+                        <div class="fields">
+                            <input type="checkbox" name="r" class="R field" value="1">
+                            1<br>
+                            <input type="checkbox" name="r" class="R field" value="2">
+                            2<br>
+                            <input type="checkbox" name="r" class="R field" value="3">
+                            3<br>
+                            <input type="checkbox" name="r" class="R field" value="4">
+                            4<br>
+                            <input type="checkbox" name="r" class="R field" value="5">
+                            5<br>
+                        </div>
+                        <input type="submit" id="submit_button" class="validate_button" value='Send'>
+                    </form>
+                    <input type="submit" id="reset_button" class="reset_button" value='Reset table' />
+                </div>
+            </div>
+        </div>
+        <div id="right" valign="top">
+            <div class="column_name" id="results">Results</div>
+            <div id="result_table_container">
+                <div id="result_table" class="results">
+                    <div class="table_column" id="column_x">X</div>
+                    <div class="table_column" id="column_y">Y</div>
+                    <div class="table_column" id="column_R">R</div>
+                    <div class="table_column" id="column_hit">Hit fact</div>
+                    <div class="table_column" id="column_time">Current time</div>
+                    <div class="table_column" id="run_time">Script running time, sec</div>
+                </div>
+            </div>
+            <div id="content">
+                
+            </div>
+        </div>
+    </div>
+    <div class="boots">I T M O , September 2022</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="js/client.js"></script>
+</body>
+
+</html>
